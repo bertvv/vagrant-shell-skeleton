@@ -10,7 +10,7 @@ If you like/use this project, please consider giving it a star. Thanks!
 
 ### TL;DR
 
-The short version: after forking and cloning, add VMs in `vagrant-hosts.yml`, e.g.:
+The short version... After forking and cloning, add VMs in `vagrant-hosts.yml`, e.g.:
 
 ```Yaml
 # vagrant-hosts.yml
@@ -23,10 +23,25 @@ and write a provisioning script with the same name as the VM in the `provisionin
 
 ### Fork & clone
 
-First of all, fork this project and give it a suitable name. Then, clone it locally. **On Windows hosts**, make sure you set `core.autocrlf` to `input`:
+First of all, fork this project and give it a suitable name. Then, clone it locally.
+
+**A warning to Windows users**: make sure you set `core.autocrlf` to `input`.
 
 ```
 git clone --config core.autocrlf=input git@github.com:USER/PROJECTNAME.git
+```
+
+If you don't, the provisioning scripts will get [DOS line endings](https://en.wikipedia.org/wiki/Newline#Common_problems) and won't run inside the VMs. You will get an error like this one:
+
+```
+$ vagrant provision
+==> srv001: Running provisioner: shell...
+    srv001: Running: /tmp/vagrant-shell20170315-6275-78kw7v.sh
+==> srv001: /vagrant/provisioning//util.sh: line 4: $'\r': command not found
+The SSH command responded with a non-zero exit status. Vagrant
+assumes that this means the command failed. The output for this command
+should be in the log above. Please read the output to determine what
+went wrong.
 ```
 
 ### Choose default base box
@@ -80,7 +95,7 @@ You can add hosts to the environment by adding entries to the `vagrant-hosts.yml
         :mount_options: ['dmode=0755', 'fmode=0644']
 ```
 
-## Provisioning
+### Provisioning
 
 For each host you defined, you should add a shell script to the `provisioning/` directory with the same name as the VM, e.g. [srv001.sh](provisioning/srv001.sh). The directory now also contains two other scripts:
 
