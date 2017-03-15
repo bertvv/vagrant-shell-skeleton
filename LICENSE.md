@@ -1,6 +1,6 @@
 # Simplified BSD License
 
-Copyright (c) 2014, Bert Van Vreckem <bert.vanvreckem@gmail.com>.
+Copyright (c) 2017, Bert Van Vreckem <bert.vanvreckem@gmail.com>.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
