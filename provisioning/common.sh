@@ -23,3 +23,5 @@ set -o pipefail
 
 info 'Starting common provisioning tasks'
 
+# TODO: insert common provisioning code here, e.g. install EPEL repository, add
+# users, etc.
