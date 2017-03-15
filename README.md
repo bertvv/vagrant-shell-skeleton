@@ -8,6 +8,19 @@ If you like/use this role, please consider giving it a star. Thanks!
 
 ## Getting started
 
+### TL;DR
+
+The short version: after forking and cloning, add VMs in `vagrant-hosts.yml`, e.g.:
+
+```Yaml
+# vagrant-hosts.yml
+---
+- name: srv001
+  ip: 192.168.56.31
+```
+
+and write a provisioning script with the same name as the VM in the `provisioning/` folder (e.g. `provisioning/srv001.sh`).
+
 ### Fork & clone
 
 First of all, fork this project and give it a suitable name. Then, clone it locally. **On Windows hosts**, make sure you set `core.autocrlf` to `input`:
