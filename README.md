@@ -1,6 +1,6 @@
-# Vagrant + shell
+# Vagrant environment with shell provisioning
 
-Scaffolding code for a multi-VM Vagrant environment with shell provisioning. It is based on a reusable "[One Vagrantfile to rule them all](https://bertvv.github.io/notes-to-self/2015/10/05/one-vagrantfile-to-rule-them-all/)" (I gave a [lightning talk about this](https://youtu.be/qJ0VNO6z68M) at [Config Management Camp 2016 Ghent](http://cfgmgmtcamp.eu/) - [slides here](http://www.slideshare.net/bertvanvreckem/one-vagrantfile-to-rule-them-all)). Hosts are defined in a simple Yaml format (see below), so setting up a multi-VM environment becomes almost trivial.
+Scaffolding code for a multi-VM Vagrant environment with shell provisioning. It is based on my reusable "[One Vagrantfile to rule them all](https://bertvv.github.io/notes-to-self/2015/10/05/one-vagrantfile-to-rule-them-all/)" (I gave a [lightning talk about this](https://youtu.be/qJ0VNO6z68M) at [Config Management Camp 2016 Ghent](http://cfgmgmtcamp.eu/) - [slides here](http://www.slideshare.net/bertvanvreckem/one-vagrantfile-to-rule-them-all)). Hosts are defined in a simple Yaml format (see below), so setting up a multi-VM environment becomes almost trivial.
 
 For a more advanced Vagrant setup with Ansible provisioning, see my other project, [ansible-skeleton](https://github.com/bertvv/ansible-skeleton).
 
@@ -8,15 +8,26 @@ If you like/use this role, please consider giving it a star. Thanks!
 
 ## Getting started
 
+### Fork & clone
+
 First of all, fork this project and give it a suitable name. Then, clone it locally. **On Windows hosts**, make sure you set `core.autocrlf` to `input`:
 
 ```
 git clone --config core.autocrlf=input git@github.com:USER/PROJECTNAME.git
 ```
 
-Modify the <Vagrantfile> to select your favourite base box. I use a [CentOS 7 base box](https://github.com/bertvv/boxcutter-centos), based on [Mischa Taylor's Packer template](https://github.com/boxcutter/centos). This is probably the only time you need to edit the `Vagrantfile`.
+### Choose default base box
 
-Next, edit `vagrant-hosts.yml`. Currently, it contains:
+Modify the [Vagrantfile](Vagrantfile) to select your favourite base box. I use a [CentOS 7 base box](https://github.com/bertvv/boxcutter-centos), based on [Mischa Taylor's Packer template](https://github.com/boxcutter/centos). This is probably the only time you need to edit the `Vagrantfile`.
+
+```Ruby
+# Set your default base box here
+DEFAULT_BASE_BOX = 'bertvv/centos72'
+```
+
+### Specify VMs
+
+Next, edit `vagrant-hosts.yml` to specify the VMs in your Vagrant environment. Currently, it contains:
 
 ```Yaml
 - name: srv001
@@ -44,7 +55,7 @@ You can add hosts to the environment by adding entries to the `vagrant-hosts.yml
   box: bertvv/fedora25
 - name: srv003
   ip: 192.168.56.33
-  synced_fo10ddlders:
+  synced_folders:
     - src: test
       dest: /tmp/test
     - src: www
@@ -58,7 +69,7 @@ You can add hosts to the environment by adding entries to the `vagrant-hosts.yml
 
 ## Provisioning
 
-For each host you defined, you should add a shell script to the <provisioning/> directory with the same name as the VM, e.g. [srv001.sh](provisioning/srv001.sh). The directory now also contains two other scripts:
+For each host you defined, you should add a shell script to the `provisioning/` directory with the same name as the VM, e.g. [srv001.sh](provisioning/srv001.sh). The directory now also contains two other scripts:
 
 - [util.sh](provisioning/util.sh), which contains Bash functions that you can use in your provisioning scripts
 - [common.sh](provisioning/common.sh), which contains provisioning tasks that are common to all VMs in your Vagrant environment.
