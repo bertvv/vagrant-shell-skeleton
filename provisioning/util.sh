@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#! /bin/bash
 #
 # Utility functions that are useful in all provisioning scripts.
 
@@ -6,28 +6,21 @@
 # Variables
 #------------------------------------------------------------------------------
 
-# Color definitions
-readonly reset='\e[0m'
-readonly cyan='\e[0;36m'
-readonly red='\e[0;31m'
-readonly yellow='\e[0;33m'
-
 # Set to 'yes' if debug messages should be printed.
 readonly debug_output='yes'
 
 #------------------------------------------------------------------------------
 # Logging and debug output
 #------------------------------------------------------------------------------
-
-# Three levels of logging are provided: info (for messages you always want to
+# Three levels of logging are provided: log (for messages you always want to
 # see), debug (for debug output that you only want to see if specified), and
 # error (obviously, for error messages).
 
-# Usage: info [ARG]...
+# Usage: log [ARG]...
 #
-# Prints all arguments on the standard output stream
-info() {
-  printf "${yellow}>>> %s${reset}\n" "${*}"
+# Prints all arguments on the standard error stream
+log() {
+  printf '\e[0;33m[LOG]  %s\e[0m\n' "${*}" 1>&2
 }
 
 # Usage: debug [ARG]...
@@ -35,7 +28,7 @@ info() {
 # Prints all arguments on the standard error stream
 debug() {
   if [ "${debug_output}" = 'yes' ]; then
-    printf "${cyan}### %s${reset}\n" "${*}" 1>&2
+    printf '\e[0;36m[DBG] %s\e[0m\n' "${*}" 1>&2
   fi
 }
 
@@ -43,7 +36,7 @@ debug() {
 #
 # Prints all arguments on the standard error stream
 error() {
-  printf "${red}!!! %s${reset}\n" "${*}" 1>&2
+  printf '\e[0;31m[ERR] %s\e[0m\n' "${*}" 1>&2
 }
 
 #------------------------------------------------------------------------------
@@ -92,17 +85,17 @@ ensure_sebool()  {
 # User management
 #------------------------------------------------------------------------------
 
-# Usage: create_user USERNAME
+# Usage: ensure_user_exists USERNAME
 #
 # Create the user with the specified name if it doesn’t exist
 ensure_user_exists() {
   local user="${1}"
-  info "Ensure user ${user} exists"
+  log "Ensure user ${user} exists"
   if ! getent passwd "${user}"; then
-    info " -> user added"
+    log " -> user added"
     useradd "${user}"
   else
-    info " -> already exists"
+    log " -> already exists"
   fi
 }
 
@@ -112,12 +105,12 @@ ensure_user_exists() {
 ensure_group_exists() {
   local group="${1}"
 
-  info "Ensure group ${group} exists"
+  log "Ensure group ${group} exists"
   if ! getent group "${group}"; then
-    info " -> group added"
+    log " -> group added"
     groupadd "${group}"
   else
-    info " -> already exists"
+    log " -> already exists"
   fi
 }
 
@@ -127,22 +120,9 @@ ensure_group_exists() {
 assign_groups() {
   local user="${1}"
   shift
-  info "Adding user ${user} to groups: ${*}"
+  log "Adding user ${user} to groups: ${*}"
   while [ "$#" -ne "0" ]; do
     usermod -aG "${1}" "${user}"
     shift
   done
-}
-
-# Usage: samba_passwd USERNAME PASSWORD
-#
-# Ensures that the Samba user with the specified name exists and is assigned
-# the specified password
-set_samba_passwd() {
-  local user="${1}"
-  local password="${2}"
-  info "Create Samba password for user ${user}"
-    (pdbedit -L | grep "${user}" > /dev/null 2>&1 ) \
-      || (echo "${password}"; echo "${password}") \
-      | smbpasswd -s -a "${user}"
 }
