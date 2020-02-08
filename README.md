@@ -25,32 +25,13 @@ and write a provisioning script with the same name as the VM in the `provisionin
 
 First of all, fork this project and give it a suitable name. Then, clone it locally.
 
-**A warning to Windows users**: make sure you set `core.autocrlf` to `input`.
-
-```
-git clone --config core.autocrlf=input git@github.com:USER/PROJECTNAME.git
-```
-
-If you don't, the provisioning scripts will get [DOS line endings](https://en.wikipedia.org/wiki/Newline#Common_problems) and won't run inside the VMs. You will get an error like this one:
-
-```
-$ vagrant provision
-==> srv001: Running provisioner: shell...
-    srv001: Running: /tmp/vagrant-shell20170315-6275-78kw7v.sh
-==> srv001: /vagrant/provisioning//util.sh: line 4: $'\r': command not found
-The SSH command responded with a non-zero exit status. Vagrant
-assumes that this means the command failed. The output for this command
-should be in the log above. Please read the output to determine what
-went wrong.
-```
-
 ### Choose default base box
 
-Modify the [Vagrantfile](Vagrantfile) to select your favourite base box. I use a [CentOS 7 base box](https://github.com/bertvv/boxcutter-centos), based on [Mischa Taylor's Packer template](https://github.com/boxcutter/centos). This is probably the only time you need to edit the `Vagrantfile`.
+Modify the [Vagrantfile](Vagrantfile) to select your favourite base box. I use a CentOS base box from the [Bento project](https://app.vagrantup.com/bento) at Chef, e.g.  `bento/centos-8`. This is probably the only time you need to edit the `Vagrantfile`.
 
 ```Ruby
 # Set your default base box here
-DEFAULT_BASE_BOX = 'bertvv/centos72'
+DEFAULT_BASE_BOX = 'bento/centos-8'
 ```
 
 ### Specify VMs
@@ -111,4 +92,3 @@ Host-specific provisioning scripts should source both files.
 ## License
 
 Licensed under the 2-clause "Simplified BSD License". See [LICENSE.md](/LICENSE.md) for details.
-

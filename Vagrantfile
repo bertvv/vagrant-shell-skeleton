@@ -14,7 +14,7 @@ require 'yaml'
 ENV["LC_ALL"] = "en_US.UTF-8"
 
 # Set your default base box here
-DEFAULT_BASE_BOX = 'bento-centos-7.5'
+DEFAULT_BASE_BOX = 'bento/centos-8'
 
 #
 # No changes needed below this point
