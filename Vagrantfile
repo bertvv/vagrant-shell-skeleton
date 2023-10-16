@@ -89,9 +89,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.box_url = host['box_url'] if host.key? 'box_url'
 
       node.vm.hostname = host['name']
-      node.vm.network :private_network, network_options(host)
+      node.vm.network :private_network, **network_options(host)
       custom_synced_folders(node.vm, host)
-      forwarded_ports(node.vm, host)
+      forwarded_ports(node.vm, host) 
+
+      # Use custom login name/password if specified
+      node.ssh.username = host['ssh_username'] if host.key? 'ssh_username'
+      node.ssh.password = host['ssh_password'] if host.key? 'ssh_password'
 
       # Add VM to a VirtualBox group
       node.vm.provider :virtualbox do |vb|
