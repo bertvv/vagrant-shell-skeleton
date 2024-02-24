@@ -14,7 +14,10 @@ require 'yaml'
 ENV["LC_ALL"] = "en_US.UTF-8"
 
 # Set your default base box here
-DEFAULT_BASE_BOX = 'bento/centos-8'
+DEFAULT_BASE_BOX = 'bento/almalinux-9'
+
+# Directory containing VM provisioning scripts
+PROVISIONING_SCRIPT_DIR = 'scripts/'
 
 #
 # No changes needed below this point
@@ -107,8 +110,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vb.customize ['modifyvm', :id, '--groups', PROJECT_NAME]
       end
             
-      # Run configuration script for the VM
-      node.vm.provision 'shell', path: 'provisioning/' + host['name'] + '.sh'
+      # Run provisioning script for the VM, if it exists.
+      provisioning_script = PROVISIONING_SCRIPT_DIR + host['name'] + '.sh'
+      if File.exist?(provisioning_script)
+        node.vm.provision 'shell', path: provisioning_script
+      else
+        node.vm.post_up_message = "WARNING! No provisioning script found for #{host['name']}"
+      end
     end
   end
 end
