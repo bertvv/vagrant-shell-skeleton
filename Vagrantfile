@@ -3,9 +3,12 @@
 # This is a generic Vagrantfile that can be used without modification in
 # a variety of situations. Hosts and their properties are specified in
 # `vagrant-hosts.yml`. Provisioning is done by a shell script in the directory
-# `provisioning/` with the same name as the host name.
+# PROVISIONING_SCRIPT_DIR with the same name as the host name.
+#
+# Author: Bert Van Vreckem <https://github.com/bertvv>
 #
 # See https://github.com/bertvv/vagrant-shell-skeleton/ for details
+#
 
 require 'rbconfig'
 require 'yaml'
