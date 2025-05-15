@@ -16,9 +16,11 @@ set -o pipefail  # don't mask errors in piped commands
 #------------------------------------------------------------------------------
 
 # Location of provisioning scripts and files
-export readonly PROVISIONING_SCRIPTS="/vagrant/provisioning/"
+export PROVISIONING_SCRIPTS="/vagrant/provisioning/"
 # Location of files to be copied to this server
-export readonly PROVISIONING_FILES="${PROVISIONING_SCRIPTS}/files/${HOSTNAME}"
+export PROVISIONING_FILES="${PROVISIONING_SCRIPTS}/files/${HOSTNAME}"
+
+export PROVISIONING_SCRIPTS PROVISIONING_FILES
 
 #------------------------------------------------------------------------------
 # "Imports"
