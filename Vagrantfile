@@ -20,7 +20,7 @@ ENV["LC_ALL"] = "en_US.UTF-8"
 DEFAULT_BASE_BOX = 'bento/almalinux-9'
 
 # Directory containing VM provisioning scripts
-PROVISIONING_SCRIPT_DIR = 'scripts/'
+PROVISIONING_SCRIPT_DIR = 'provisioning/'
 
 #
 # No changes needed below this point
@@ -102,6 +102,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Use custom login name/password if specified
       node.ssh.username = host['ssh_username'] if host.key? 'ssh_username'
       node.ssh.password = host['ssh_password'] if host.key? 'ssh_password'
+
+      # Add disks to the VM
+      if host.key?('disks') && host['disks'].is_a?(Array)
+        host['disks'].each do |disk|
+          node.vm.disk :disk, name: disk['name'], size: disk['size']
+        end
+      end
 
       # Add VM to a VirtualBox group
       node.vm.provider :virtualbox do |vb|
