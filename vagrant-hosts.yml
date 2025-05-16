@@ -1,41 +1,16 @@
-# vagrant_hosts.yml
+# vagrant_hosts.yml -- List of hosts to be created by Vagrant.
 #
-# List of hosts to be created by Vagrant. This file controls the Vagrant
-# settings, specifically host name and network settings. You should at least
-# have a `name:`.  Other optional settings that can be specified:
+# This file specifies the properties of your Vagrant VMs as a YAML list of
+# dicts. Each VM should at least have a `name`.
 #
-# * `box`: choose another base box instead of the default one specified in
-#   Vagrantfile. A box name in the form `USER/BOX` (e.g. `bento/almalinux-9`)
-#   is fetched from Vagrant Cloud.
-# * `box_url`: Download the box from the specified URL instead of from Atlas.
-# * `memory`: The amount of memory to allocate to the VM.
-# * `cpus`: The number of CPUs to allocate to the VM.
-# * `ip`: by default, an IP will be assigned by DHCP. If you want a fixed
-#   addres, specify it.
-# * `netmask`: by default, the network mask is `255.255.255.0`. If you want
-#   another one, it should be specified.
-# * `mac`: The MAC address to be assigned to the NIC. Several notations are
-#   accepted, including "Linux-style" (`00:11:22:33:44:55`) and "Windows-style"
-#   `00-11-22-33-44-55`). The separator characters can be omitted altogether
-#   (`001122334455`).
-# * `intnet`: If set to `true`, the network interface will be attached to an
-#   internal network rather than a host-only adapter.
-# * `auto_config`: If set to `false`, Vagrant will not attempt to configure
-#   the network interface.
-# * `ssh_username` and `ssh_password`: Credentials for logging in to the VM (if
-#   the VM does not use the default SSH key or username/password combination).
-# * `synced_folders`: A list of dicts that specify synced folders. `src` and
-#   `dest` are mandatory, `options:` are optional. For the possible options,
-#   see the Vagrant documentation[1]. Keys of options should be prefixed with
-#   a colon, e.g. `:owner:`.
+# For other settings (like base box, memory, IP address, extra disks, etc.),
+# see the documentation on Github:
+# <https://github.com/bertvv/vagrant-shell-skeleton>
 #
-# To enable *provisioning*, ensure the directory provisioning/ contains a script
-# with the name of the VM, e.g. srv001.sh.
-#
-# [1] http://docs.vagrantup.com/v2/synced-folders/basic_usage.html
+# If you want to run an install script at creation time, ensure the directory
+# provisioning/ contains a script with the name of the VM, e.g. srv001.sh.
 ---
 
-- name: srv001
-  ip: 192.168.56.31
-  box: bento/almalinux-9
-
+- name: 'srv001'
+  ip: '192.168.56.9'
+  box: 'bento/almalinux-9'
