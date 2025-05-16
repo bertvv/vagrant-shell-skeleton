@@ -38,43 +38,48 @@ DEFAULT_BASE_BOX = 'bento/almalinux-9'
 
 ### Specify VMs
 
-Next, edit `vagrant-hosts.yml` to specify the VMs in your Vagrant environment. Currently, it contains:
+Next, edit `vagrant-hosts.yml` to specify the VMs in your Vagrant environment. e.g.:
 
 ```Yaml
-- name: srv001
-  ip: 192.168.56.31
+- name: 'srv001'
+  ip: '192.168.56.10'
+  box: 'bento/almalinux-9'
+
+- name: 'srv002'
+  ip: '192.168.56.11'
+  box: 'bento/fedora-latest'
 ```
 
-The `vagrant-hosts.yml` file specifies the nodes that are controlled by Vagrant. You should at least specify a `name:`, other settings (see below) are optional. A host-only adapter is created and the given IP assigned to that interface. Other optional settings that can be specified:
+You should at least give each VM a `name:`, other settings (see below) are optional. A host-only adapter is created and the given IP assigned to that interface.
 
 ## Supported settings for `vagrant-hosts.yml`
 
-The table below summarizes all supported settings for specifying VM properties. Unless otherwise noted, all settings are optional.
+The table below summarizes all supported settings for specifying VM properties. Apart from the VM `name`, all settings are optional.
 
-| Name              | Type         | Default             | Description                               |
-| ----------------- | ------------ | ------------------- | ----------------------------------------- |
-| `auto_config`     | bool         | `true`              | Disable auto configuration of network     |
-| `box_url`         | string       | -                   | URL to the Vagrant box                    |
-| `box`             | string       | `bento/almalinux-9` | Vagrant base box                          |
-| `cpus`            | int          | -                   | Number of CPUs for the VM                 |
-| `disks`           | list of dict | []                  | List of disks to be added to the VM       |
-| - `name`          | string       | -                   | Name of the disk                          |
-| - `size`          | int          | -                   | Size of the disk in MB                    |
-| `forwarded_ports` | list of dict | []                  | NAT adapter port forwarding rules         |
-| - `guest`         | int          | -                   | Port on the VM                            |
-| - `host`          | int          | -                   | Port on the physical system               |
-| `intnet`          | bool         | `false`             | Use internal network instead of host-only |
-| `ip`              | string       | DHCP                | IP address for the VM                     |
-| `mac`             | string       | -                   | MAC address for the NIC                   |
-| `memory`          | int          | -                   | Memory size in MB                         |
-| `name`            | string       | -                   | Hostname for the VM (**mandatory**)       |
-| `netmask`         | string       | `255.255.255.0`     | Network mask                              |
-| `ssh_username`    | string       | -                   | username for the admin user               |
-| `ssh_password`    | string       | -                   | password for the admin user               |
-| `synced_folders`  | list of dict | []                  | Synced folders (see examples below)       |
-| - `src`           | string       | -                   | Source directory on the host system       |
-| - `dest`          | string       | -                   | Mount point in the guest                  |
-| - `options`       | dict         | -                   | Options for the synced folder             |
+| Name              | Type         | Default             | Description                                |
+| ----------------- | ------------ | ------------------- | ------------------------------------------ |
+| `auto_config`     | bool         | `true`              | Disable auto configuration of network      |
+| `box_url`         | string       | -                   | URL to the Vagrant box                     |
+| `box`             | string       | `bento/almalinux-9` | Vagrant base box                           |
+| `cpus`            | int          | -                   | Number of CPUs for the VM                  |
+| `disks`           | list of dict | []                  | List of disks to be added to the VM        |
+| ↳ `name`          | string       | -                   | Name of the disk                           |
+| ↳ `size`          | int/string   | -                   | Size of the disk in MB (or specified unit) |
+| `forwarded_ports` | list of dict | []                  | NAT adapter port forwarding rules          |
+| ↳ `guest`         | int          | -                   | Port on the VM                             |
+| ↳ `host`          | int          | -                   | Port on the physical system                |
+| `intnet`          | bool         | `false`             | Use internal network instead of host-only  |
+| `ip`              | string       | DHCP                | IP address for the VM                      |
+| `mac`             | string       | -                   | MAC address for the NIC                    |
+| `memory`          | int          | -                   | Memory size in MB                          |
+| `name`            | string       | -                   | Hostname for the VM (**mandatory**)        |
+| `netmask`         | string       | `255.255.255.0`     | Network mask                               |
+| `ssh_username`    | string       | -                   | username for the admin user                |
+| `ssh_password`    | string       | -                   | password for the admin user                |
+| `synced_folders`  | list of dict | []                  | Synced folders (see examples below)        |
+| ↳ `src`           | string       | -                   | Source directory on the host system        |
+| ↳ `dest`          | string       | -                   | Mount point in the guest                   |
+| ↳ `options`       | dict         | -                   | Options for the synced folder              |
 
 ### Remarks
 
